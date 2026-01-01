@@ -1,4 +1,6 @@
 import pygame
+import sys
+import random
 
 pygame.init()
 
@@ -15,6 +17,19 @@ yellow = (255,255,0)
 cyan = (0,255,255)
 magenta = (255,0,255)
 
+try:
+    image_surface = pygame.image.load("player.png").convert_alpha() #Использовать конверт () для непрозрачных изображений
+except pygame.error as e:
+    print(f"Error loading image: {e}")
+    sys.exit()
+
+# Получить прямоугольник изображения для позиционирования
+# Это удобный способ управления координатами изображения и столкновениями
+image_rect = image_surface.get_rect()
+image_rect.topleft = (0, 0)  # Позиция в верхнем левом углу
+
+
+
 display = pygame.display.set_mode((Width, Height))
 
 On_Game_True = True
@@ -26,6 +41,10 @@ while On_Game_True:
             quit()
 
     display.fill(cyan)
+
+
+
+    display.blit(image_surface, image_rect)
 
     pygame.display.flip()
 
