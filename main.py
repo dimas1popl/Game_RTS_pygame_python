@@ -1,6 +1,5 @@
 import pygame
 import sys
-import random
 
 pygame.init()
 
@@ -35,14 +34,17 @@ bg_rect = bg_image.get_rect()
 image_width = bg_rect.width
 
 try:
-    image_surface = pygame.image.load("images/player.png").convert_alpha()
-    image_surface.set_colorkey((255, 255, 255))
+    player_images = []
+    player_list = ['images/player_walk_down1.png', 'images/player_walk_down2.png']
+    for img in player_list:
+        player_images.append(pygame.image.load(img).convert_alpha())
+    player_images.set_colorkey((255, 255, 255))
 except pygame.error as e:
     print(f"Error loading image: {e}")
     sys.exit()
 
 # Получить прямоугольник изображения для позиционирования
-image_rect = image_surface.get_rect()
+image_rect = player_images.get_rect()
 image_rect.topleft = (player_x, player_y)  # Начальная позиция
 
 # Добавим скорость для более плавного движения
@@ -70,7 +72,6 @@ while On_Game_True:
         if player_x < Width - image_rect.width:
             player_x += player_speed
 
-    # ВАЖНО: обновляем позицию прямоугольника каждый кадр!
     image_rect.topleft = (player_x, player_y)
 
     fpsClock.tick(60)
@@ -80,5 +81,5 @@ while On_Game_True:
         display.blit(bg_image, (x, 286))#572
         display.blit(bg_image, (x, 572))#858
         display.blit(bg_image, (x, 858))
-    display.blit(image_surface, image_rect)
+    display.blit(player_images, image_rect)
     pygame.display.flip()
